@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Welcome User </title>
+    <link href="../static/css/bootstrap.css"
+          th:href="@{css/bootstrap.css}" rel="stylesheet" media="screen"/>
+
+</head>
+<body>
+
+
+<div class="center-block">
+    <div class="jumbotron">
+        <h1>Oto następne pytanie </h1>
+        <h2 th:text="${textQuestion}"></h2>
+    </div>
+</div>
+
+<form action="#" th:action="@{/question}" method="post">
+
+    <div class="radio">
+        <label><input th:field="${question.userAnswer}" type="radio" name="optradio" value="1"/></label>
+        <p th:text="${answerA}"></p>
+    </div>
+    <div class="radio">
+        <label><input th:field="${question.userAnswer}" type="radio" name="optradio" value="2"/></label>
+        <p th:text="${answerB}"></p>
+    </div>
+    <div class="radio">
+        <label><input th:field="${question.userAnswer}" type="radio" name="optradio" value="3"/>
+            <p th:text="${answerC}"></p></label>
+    </div>
+
+    <button th:type="submit" class="btn btn-primary">Next</button>
+</form>
+
+</body>
+</html>

@@ -2,13 +2,21 @@ package dziedzic.rafal.webQuiz.model;
 
 public class Question {
     public String questionText;
-    public String answers;
-    public int correctAnswer;
+    public String answersA;
+    public String answersC;
+    public String answersB;
+    public int userAnswer;
+    private int correctAnswer;
 
-    public Question(String questionText, String answers, int correctAnswer) {
+    public Question(String questionText, String answersA, String answersC, String answersB, int correctAnswer) {
         this.questionText = questionText;
-        this.answers = answers;
+        this.answersA = answersA;
+        this.answersC = answersC;
+        this.answersB = answersB;
         this.correctAnswer = correctAnswer;
+    }
+
+    public Question() {
     }
 
     public String getQuestionText() {
@@ -19,12 +27,36 @@ public class Question {
         this.questionText = questionText;
     }
 
-    public String getAnswers() {
-        return answers;
+    public String getAnswersA() {
+        return answersA;
     }
 
-    public void setAnswers(String answers) {
-        this.answers = answers;
+    public void setAnswersA(String answersA) {
+        this.answersA = answersA;
+    }
+
+    public String getAnswersC() {
+        return answersC;
+    }
+
+    public void setAnswersC(String answersC) {
+        this.answersC = answersC;
+    }
+
+    public String getAnswersB() {
+        return answersB;
+    }
+
+    public void setAnswersB(String answersB) {
+        this.answersB = answersB;
+    }
+
+    public int getUserAnswer() {
+        return userAnswer;
+    }
+
+    public void setUserAnswer(int userAnswer) {
+        this.userAnswer = userAnswer;
     }
 
     public int getCorrectAnswer() {
@@ -36,31 +68,13 @@ public class Question {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Question question = (Question) o;
-
-        if (correctAnswer != question.correctAnswer) return false;
-        if (questionText != null ? !questionText.equals(question.questionText) : question.questionText != null)
-            return false;
-        return answers != null ? answers.equals(question.answers) : question.answers == null;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = questionText != null ? questionText.hashCode() : 0;
-        result = 31 * result + (answers != null ? answers.hashCode() : 0);
-        result = 31 * result + correctAnswer;
-        return result;
-    }
-
-    @Override
     public String toString() {
         return "Question{" +
                 "questionText='" + questionText + '\'' +
-                ", answers='" + answers + '\'' +
+                ", answersA='" + answersA + '\'' +
+                ", answersC='" + answersC + '\'' +
+                ", answersB='" + answersB + '\'' +
+                ", userAnswer=" + userAnswer +
                 ", correctAnswer=" + correctAnswer +
                 '}';
     }
