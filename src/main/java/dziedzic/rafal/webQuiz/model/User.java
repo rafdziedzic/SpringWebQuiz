@@ -1,10 +1,10 @@
 package dziedzic.rafal.webQuiz.model;
 
 public class User {
-    public int id;
-    public String name;
-    public String email;
-    public int points;
+    private int id;
+    private String name;
+    private String email;
+    private int points;
 
     public User(int id, String name, String email, int points) {
         this.id = id;

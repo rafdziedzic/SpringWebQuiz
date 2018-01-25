@@ -2,6 +2,7 @@ package dziedzic.rafal.webQuiz.controller;
 
 import dziedzic.rafal.webQuiz.dao.DaoQuestion;
 import dziedzic.rafal.webQuiz.dao.DaoUser;
+import dziedzic.rafal.webQuiz.dao.EmailServices;
 import dziedzic.rafal.webQuiz.model.Question;
 import dziedzic.rafal.webQuiz.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +13,11 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 public class StartController {
 
-    @Autowired         //jeżeli ten obiekt będzie potrzebny to Spring go wstrzyknie,
-            DaoUser daoUser;
+    @Autowired
+    EmailServices emailServices;
+
+    @Autowired
+    DaoUser daoUser;
     @Autowired
     DaoQuestion daoQuestion;
 
@@ -23,8 +27,8 @@ public class StartController {
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String showInputForm(ModelMap modelMap) {
         modelMap.addAttribute("user", new User());
-        return "startForm";  // przekazujemy postego usera, który ma nie ustawione parametry, będziemy poberali metodą
-        // post wartości uzytkownika a nastepnie zapisać tego użytkownika
+        return "startForm";
+
 
     }
 
@@ -33,7 +37,7 @@ public class StartController {
         modelMap.addAttribute("user", user);
         daoUser.addUser(user);
 
-        System.out.println(user.toString());  // roboczo generownie usera
+        System.out.println(user.toString());
 
         return "redirect:/question";
     }
@@ -53,16 +57,36 @@ public class StartController {
     @PostMapping(value = "/question")
     public String getAnswer(@ModelAttribute Question question, ModelMap modelMap) {
         modelMap.addAttribute("question", question);
-
-        if (daoQuestion.showAll().get(questionCount).getCorrectAnswer()==question.getUserAnswer()) {
+        String url = "";
+        if (daoQuestion.showAll().get(questionCount).getCorrectAnswer() == question.getUserAnswer()) {
             userPoints++;
         }
         questionCount++;
 
-        System.out.println(userPoints);
+        if (questionCount < 5) {
+            url = "question";
+        } else {
+            url = "thankyou";
+        }
 
-        return "redirect:/question";
+
+        return "redirect:/" + url;
     }
 
+
+    @RequestMapping(value = "/thankyou")
+    public String summary(ModelMap modelMap) {
+
+        String summary = "Uzyskales punktow: " + userPoints + " Gratuluje";
+
+        String thanks = "Dziekujemy za wypelnienie naszego testu " + daoUser.showAll().get(0).getName();
+
+        modelMap.addAttribute("summary", summary);
+        modelMap.addAttribute("thanks", thanks);
+
+        emailServices.sendMessage(daoUser.showAll().get(0).getEmail(),"Wynik testu","Dziekuje");
+
+        return "thankYou";
+    }
 
 }
